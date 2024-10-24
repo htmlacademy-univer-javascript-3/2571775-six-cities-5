@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
+import { OffersMock } from './mocks/offers';
 
 const Setting = {
-  rentalCounts: 180
+  offers: OffersMock
 } as const;
 
 const root = ReactDOM.createRoot(
@@ -12,6 +13,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App rentalCounts = {Setting.rentalCounts}/>
+    <App offerCounts = {Setting.offers.length} offers={Setting.offers}/>
   </React.StrictMode>
 );
