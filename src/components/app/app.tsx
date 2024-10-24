@@ -6,18 +6,20 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import { NotFoundScreen } from '../../pages/not-found-screen/not-found-screen';
 import { PrivateRoute } from '../private-route/private-route';
+import { Offers } from '../../types/offer';
 
 type AppProps = {
-  rentalCounts: number;
+  offerCounts: number;
+  offers: Offers;
 }
 
-function App({rentalCounts}: AppProps): JSX.Element {
+function App({offerCounts, offers}: AppProps): JSX.Element {
   return(
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen rentalCounts={rentalCounts} />}
+          element={<MainScreen offerCounts={offerCounts} offers={offers}/>}
         />
         <Route
           path={AppRoute.Login}
@@ -27,15 +29,15 @@ function App({rentalCounts}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={AuthorizationStatus.Auth}
             >
-              <FavoritesScreen />
+              <FavoritesScreen favouriteOffers={offers.filter((offer) => offer.isFavourite)}/>
             </PrivateRoute>
           }
         />
         <Route
           path={AppRoute.Offer}
-          element={<OfferScreen />}
+          element={<OfferScreen offers={offers} />}
         />
         <Route
           path='*'
