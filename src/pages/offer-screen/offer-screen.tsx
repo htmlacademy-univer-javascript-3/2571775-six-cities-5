@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Offers } from '../../types/offer';
 import { OfferInfo } from './offer-info';
-import { NearestOffersList } from './nearest-offers-list';
+import { OffersList } from '../main-screen/offers-list';
 
 type OfferScreenProps = {
   offers: Offers;
@@ -51,7 +51,7 @@ function OfferScreen({offers}: OfferScreenProps): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <NearestOffersList offers={nearestOffers} ></NearestOffersList>
+            <OffersList offers={nearestOffers} offerClassNameType={'near-places'} offersDivClassName={'near-places__list places__list'} ></OffersList>
           </section>
         </div>
       </main>

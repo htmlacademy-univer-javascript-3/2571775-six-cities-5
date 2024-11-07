@@ -14,7 +14,7 @@ export const OffersMock: Offers = [
     priceFor: PricePeriod.Night,
     placeType: OfferPlace.Apartment,
     isPremium: false,
-    isFavourite: true,
+    isFavourite: false,
     properties: {
       photosSrcs: ['img/room.jpg', 'img/apartment-01.jpg'],
       bedroomsCount: 3,
@@ -125,7 +125,7 @@ export const OffersMock: Offers = [
     priceFor: PricePeriod.Night,
     placeType: OfferPlace.Apartment,
     isPremium: true,
-    isFavourite: false,
+    isFavourite: true,
     properties: {
       photosSrcs: ['img/room.jpg', 'img/apartment-02.jpg'],
       bedroomsCount: 3,

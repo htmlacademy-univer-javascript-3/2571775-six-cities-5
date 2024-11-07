@@ -98,7 +98,7 @@ function MainScreen({offerCounts, offers}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} offerClassNameType='cities' offersDivClassName={'cities__places-list places__list tabs__content'}/>
             </section>
             <div className="cities__right-section">
               <OffersMap city={Amsterdam} points={offers.map((offer) => offer.coordinates)} className={'cities__map map'}/>
