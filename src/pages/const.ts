@@ -17,7 +17,7 @@ export enum OfferPlace {
 }
 
 export enum PricePeriod {
-  Night = 'Night'
+  Night = 'night'
 }
 
 export enum Rating {

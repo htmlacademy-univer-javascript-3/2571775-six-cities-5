@@ -1,14 +1,17 @@
 import { Navigate } from 'react-router-dom';
-import { Offer } from '../../types/offer';
+import { Offer, Offers } from '../../types/offer';
 import { ReviewsList } from './reviews-list';
 import { CommentSendingForm } from './comment-sending-form';
+import { OffersMap } from '../main-screen/offers-map';
+import { Amsterdam } from '../../mocks/cities';
 
 type OfferInfoProps = {
   offer: Offer | undefined;
+  nearestOffers: Offers;
 }
 
 
-export function OfferInfo({offer}: OfferInfoProps): JSX.Element {
+export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
   if (offer){
     return(
       <section className="offer">
@@ -112,7 +115,7 @@ export function OfferInfo({offer}: OfferInfoProps): JSX.Element {
             </section>
           </div>
         </div>
-        <section className="offer__map map"></section>
+        <OffersMap city={Amsterdam} points={nearestOffers.map((nearestOffer) => nearestOffer.coordinates)} className={'offer__map map'}></OffersMap>
       </section>
     );
   } else {

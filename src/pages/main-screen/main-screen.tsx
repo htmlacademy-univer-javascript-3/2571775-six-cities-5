@@ -101,7 +101,7 @@ function MainScreen({offerCounts, offers}: MainScreenProps): JSX.Element {
               <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <OffersMap city={Amsterdam} points={offers.map((offer) => offer.coordinates)}/>
+              <OffersMap city={Amsterdam} points={offers.map((offer) => offer.coordinates)} className={'cities__map map'}/>
             </div>
           </div>
         </div>

@@ -9,4 +9,5 @@ export type OfferProperties = {
   owner: User;
   ownerDescription: string;
   reviews: Reviews;
+  nearestOffersId: number[];
 }
