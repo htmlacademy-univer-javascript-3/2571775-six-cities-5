@@ -28,7 +28,7 @@ export enum Rating {
   FiveStar = 100
 }
 
-export enum City {
+export enum CityNames {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
@@ -58,3 +58,7 @@ export enum Month {
   November = 'November',
   December = 'December',
 }
+
+export const MapUrlTemplate = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+export const MapAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';

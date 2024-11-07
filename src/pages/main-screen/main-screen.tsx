@@ -1,4 +1,6 @@
+import { Amsterdam } from '../../mocks/cities';
 import { Offers } from '../../types/offer';
+import { OffersMap } from './offers-map';
 import { OffersList } from './offers-list';
 
 type MainScreenProps = {
@@ -99,7 +101,7 @@ function MainScreen({offerCounts, offers}: MainScreenProps): JSX.Element {
               <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <OffersMap city={Amsterdam} points={offers.map((offer) => offer.coordinates)}/>
             </div>
           </div>
         </div>
