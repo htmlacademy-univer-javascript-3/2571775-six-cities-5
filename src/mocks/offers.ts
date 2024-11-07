@@ -14,7 +14,7 @@ export const OffersMock: Offers = [
     priceFor: PricePeriod.Night,
     placeType: OfferPlace.Apartment,
     isPremium: false,
-    isFavourite: true,
+    isFavourite: false,
     properties: {
       photosSrcs: ['img/room.jpg', 'img/apartment-01.jpg'],
       bedroomsCount: 3,
@@ -36,7 +36,8 @@ export const OffersMock: Offers = [
         reviewText: 'text((',
         month: Month.April,
         year: 2024
-      }]
+      }],
+      nearestOffersId: [2, 3, 4]
     }
   },
   {
@@ -72,7 +73,8 @@ export const OffersMock: Offers = [
         reviewText: 'text2((',
         month: Month.November,
         year: 2023
-      }]
+      }],
+      nearestOffersId: [1, 3, 4]
     }
   },
   {
@@ -108,7 +110,8 @@ export const OffersMock: Offers = [
         reviewText: 'text((',
         month: Month.December,
         year: 2022
-      }]
+      }],
+      nearestOffersId: [2, 1, 4]
     }
   },
   {
@@ -122,7 +125,7 @@ export const OffersMock: Offers = [
     priceFor: PricePeriod.Night,
     placeType: OfferPlace.Apartment,
     isPremium: true,
-    isFavourite: false,
+    isFavourite: true,
     properties: {
       photosSrcs: ['img/room.jpg', 'img/apartment-02.jpg'],
       bedroomsCount: 3,
@@ -144,7 +147,19 @@ export const OffersMock: Offers = [
         reviewText: 'text((4',
         month: Month.January,
         year: 2020
-      }]
+      },
+      {
+        owner: {
+          name: 'SecondOwner',
+          status: OwnerStatus.Beginner,
+          avatarSrc: 'img/avatar-max.jpg',
+        },
+        rating: Rating.OneStar,
+        reviewText: 'text2((',
+        month: Month.November,
+        year: 2023
+      }],
+      nearestOffersId: [2, 3, 1]
     }
   }
 ];

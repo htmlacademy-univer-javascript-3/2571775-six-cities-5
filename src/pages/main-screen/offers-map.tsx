@@ -1,17 +1,19 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { City } from '../../types/city';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useMap } from './use-map';
 
 export type OffersMapProps = {
   city: City;
   points: [number, number][];
+  className: string;
 }
 
-export function OffersMap({city, points}: OffersMapProps): JSX.Element {
+export function OffersMap({ city, points, className }: OffersMapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  const [markers, setMarkers] = useState<leaflet.Marker[]>([]);
 
   const icon = leaflet.icon({
     iconUrl: 'img/pin.svg',
@@ -19,20 +21,18 @@ export function OffersMap({city, points}: OffersMapProps): JSX.Element {
     iconAnchor: [20, 40],
   });
 
-  if (map){
-    points.forEach((point) => {
-      leaflet
-        .marker({
-          lat: point[0],
-          lng: point[1],
-        }, {
-          icon: icon,
-        })
-        .addTo(map);
-    });
-  }
+  useEffect(() => {
+    if (map) {
+      markers.forEach((marker) => {
+        map.removeLayer(marker);
+      });
+      setMarkers(points.map((point) => leaflet
+        .marker({ lat: point[0], lng: point[1] }, { icon })
+        .addTo(map)));
+    }
+  }, [points, map]);
 
   return (
-    <section className="cities__map map" style={{height: '500px'}} ref={mapRef}></section>
+    <section className={className} style={{ height: '500px' }} ref={mapRef}></section>
   );
 }
