@@ -1,11 +1,13 @@
-import { City, Month, OfferPlace, OwnerStatus, PricePeriod, Rating } from '../pages/const';
+import { Month, OfferPlace, OwnerStatus, PricePeriod, Rating } from '../pages/const';
 import { Offers } from '../types/offer';
+import { Amsterdam } from './cities';
 
 export const OffersMock: Offers = [
   {
     id: 1,
     description: 'Beautiful & luxurious apartment at great location',
-    city: City.Amsterdam,
+    city: Amsterdam,
+    coordinates : [52.3909553943508, 4.85309666406198],
     imageSrc: 'img/apartment-01.jpg',
     rating: Rating.FourStar,
     price: 120,
@@ -40,7 +42,8 @@ export const OffersMock: Offers = [
   {
     id: 2,
     description: 'Wood and stone place',
-    city: City.Amsterdam,
+    city: Amsterdam,
+    coordinates: [52.3609553943508, 4.85309666406198],
     imageSrc: 'img/room.jpg',
     rating: Rating.FourStar,
     price: 80,
@@ -75,7 +78,8 @@ export const OffersMock: Offers = [
   {
     id: 3,
     description: 'Canal View Prinsengracht',
-    city: City.Amsterdam,
+    city: Amsterdam,
+    coordinates: [52.3909553943508, 4.929309666406198],
     imageSrc: 'img/apartment-02.jpg',
     rating: Rating.FourStar,
     price: 132,
@@ -110,7 +114,8 @@ export const OffersMock: Offers = [
   {
     id: 4,
     description: 'Nice, cozy, warm big bed apartment',
-    city: City.Amsterdam,
+    city: Amsterdam,
+    coordinates: [52.3809553943508, 4.939309666406198],
     imageSrc: 'img/apartment-03.jpg',
     rating: Rating.FiveStar,
     price: 180,
