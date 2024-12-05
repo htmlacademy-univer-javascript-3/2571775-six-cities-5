@@ -3,6 +3,7 @@ import { Offer, Offers } from '../../types/offer';
 import { ReviewsList } from './reviews-list';
 import { CommentSendingForm } from './comment-sending-form';
 import { OffersMap } from '../main-screen/offers-map';
+import { useAppSelector } from '../../hooks';
 
 type OfferInfoProps = {
   offer: Offer | undefined;
@@ -11,6 +12,7 @@ type OfferInfoProps = {
 
 
 export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
+  const currentOfferId = useAppSelector((state) => state.currentOfferId);
   if (offer){
     return(
       <section className="offer">
@@ -114,7 +116,7 @@ export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
             </section>
           </div>
         </div>
-        <OffersMap points={nearestOffers.map((nearestOffer) => nearestOffer.coordinates)} className={'offer__map map'}></OffersMap>
+        <OffersMap points={nearestOffers.map((nearestOffer) => [...nearestOffer.coordinates, nearestOffer.id === currentOfferId])} className={'offer__map map'}></OffersMap>
       </section>
     );
   } else {

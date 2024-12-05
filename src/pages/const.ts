@@ -59,6 +59,13 @@ export enum Month {
   December = 'December',
 }
 
+export enum SortTypes {
+  Popular = 'Popular',
+  PriceFromLow = 'Price: low to high',
+  PriceFromHigh = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
 export const MapUrlTemplate = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 export const MapAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
