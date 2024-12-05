@@ -1,12 +1,12 @@
 import { Month, OfferPlace, OwnerStatus, PricePeriod, Rating } from '../pages/const';
 import { Offers } from '../types/offer';
-import { Amsterdam } from './cities';
+import { Amsterdam, Paris } from './cities';
 
 export const OffersMock: Offers = [
   {
     id: 1,
     description: 'Beautiful & luxurious apartment at great location',
-    city: Amsterdam,
+    city: Paris,
     coordinates : [52.3909553943508, 4.85309666406198],
     imageSrc: 'img/apartment-01.jpg',
     rating: Rating.FourStar,
@@ -43,7 +43,7 @@ export const OffersMock: Offers = [
   {
     id: 2,
     description: 'Wood and stone place',
-    city: Amsterdam,
+    city: Paris,
     coordinates: [52.3609553943508, 4.85309666406198],
     imageSrc: 'img/room.jpg',
     rating: Rating.FourStar,

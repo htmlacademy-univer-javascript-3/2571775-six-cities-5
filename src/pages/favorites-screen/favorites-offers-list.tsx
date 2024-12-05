@@ -1,11 +1,8 @@
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
 import { FavoriteOffer } from './favorite-offer-card';
 
-type FavoritesOfferListProps = {
-  offers: Offers;
-}
-
-export function FavoritesOfferList({offers}: FavoritesOfferListProps): JSX.Element {
+export function FavoritesOfferList(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers).filter((offer) => offer.isFavourite);
   return(
     <div className="favorites__places">
       {

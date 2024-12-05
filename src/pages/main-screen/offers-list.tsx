@@ -9,8 +9,7 @@ type OffersProps = {
 }
 
 export function OffersList({offers, offerClassNameType, offersDivClassName}: OffersProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeCardId, setActiveCardId] = useState(0);
+  const [, setActiveCardId] = useState(0);
   return(
     <div className={offersDivClassName}>
       {
