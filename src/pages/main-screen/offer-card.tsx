@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
+import { useAppDispatch } from '../../hooks';
+import { setCurrentOfferId } from '../../store/action';
 
 type OfferCardProps = {
   offer: Offer;
   classNameType: string;
-  onMouseOver: () => void;
 }
 
-export function OfferCard({offer, onMouseOver, classNameType}: OfferCardProps): JSX.Element {
+export function OfferCard({offer, classNameType}: OfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
   return (
-    <article className={`${classNameType}__card place-card`} onMouseOver={onMouseOver}>
+    <article className={`${classNameType}__card place-card`} onMouseOver={() => dispatch(setCurrentOfferId(offer.id))} onMouseOut={() => dispatch(setCurrentOfferId(undefined))}>
       {
         offer.isPremium ?
           <div className="place-card__mark">

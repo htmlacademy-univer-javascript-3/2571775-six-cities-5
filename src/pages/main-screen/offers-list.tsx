@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Offers } from '../../types/offer';
 import { OfferCard } from './offer-card';
 
@@ -9,13 +8,12 @@ type OffersProps = {
 }
 
 export function OffersList({offers, offerClassNameType, offersDivClassName}: OffersProps): JSX.Element {
-  const [, setActiveCardId] = useState(0);
   return(
     <div className={offersDivClassName}>
       {
         offers.map((offer, id) => {
           const keyValue = `offer-${id}`;
-          return (<OfferCard offer={offer} key={keyValue} onMouseOver={() => (setActiveCardId(offer.id))} classNameType={offerClassNameType}/>);
+          return (<OfferCard offer={offer} key={keyValue} classNameType={offerClassNameType}/>);
         })
       }
     </div>);

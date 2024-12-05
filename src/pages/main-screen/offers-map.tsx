@@ -1,32 +1,34 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useMap } from './use-map';
 
 export type OffersMapProps = {
-  points: [number, number][];
+  points: [number, number, boolean][];
   className: string;
 }
 
 export function OffersMap({ points, className }: OffersMapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
-  const [markers, setMarkers] = useState<leaflet.Marker[]>([]);
-
-  const icon = leaflet.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [30, 40],
-    iconAnchor: [20, 40],
-  });
 
   useEffect(() => {
     if (map) {
-      markers.forEach((marker) => {
-        map.removeLayer(marker);
+      map.eachLayer((layer) => {
+        if (layer instanceof leaflet.Marker) {
+          map.removeLayer(layer);
+        }
       });
-      setMarkers(points.map((point) => leaflet
-        .marker({ lat: point[0], lng: point[1] }, { icon })
-        .addTo(map)));
+      points.forEach((point) => {
+        const icon = leaflet.icon({
+          iconUrl: point[2] ? 'img/pin-active.svg' : 'img/pin.svg',
+          iconSize: [30, 40],
+          iconAnchor: [20, 40],
+        });
+        leaflet
+          .marker({ lat: point[0], lng: point[1] }, { icon })
+          .addTo(map);
+      });
     }
   }, [points, map]);
 
