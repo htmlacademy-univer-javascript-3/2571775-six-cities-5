@@ -1,18 +1,16 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { City } from '../../types/city';
 import { useRef, useState, useEffect } from 'react';
 import { useMap } from './use-map';
 
 export type OffersMapProps = {
-  city: City;
   points: [number, number][];
   className: string;
 }
 
-export function OffersMap({ city, points, className }: OffersMapProps): JSX.Element {
+export function OffersMap({ points, className }: OffersMapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef);
   const [markers, setMarkers] = useState<leaflet.Marker[]>([]);
 
   const icon = leaflet.icon({

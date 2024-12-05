@@ -1,13 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { Offers } from '../../types/offer';
 import { OfferInfo } from './offer-info';
 import { OffersList } from '../main-screen/offers-list';
+import { useAppSelector } from '../../hooks';
 
-type OfferScreenProps = {
-  offers: Offers;
-}
-
-function OfferScreen({offers}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
   const { id } = useParams();
   let offerId = 0;
   if (id){

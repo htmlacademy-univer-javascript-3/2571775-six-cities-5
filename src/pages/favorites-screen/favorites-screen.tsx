@@ -1,11 +1,6 @@
-import { Offers } from '../../types/offer';
 import { FavoritesOfferList } from './favorites-offers-list';
 
-type FavoritesScreenProps = {
-  favouriteOffers: Offers;
-}
-
-function FavoritesScreen({favouriteOffers}: FavoritesScreenProps): JSX.Element {
+function FavoritesScreen(): JSX.Element {
   return(
     <div className="page">
       <header className="header">
@@ -50,7 +45,7 @@ function FavoritesScreen({favouriteOffers}: FavoritesScreenProps): JSX.Element {
                     </a>
                   </div>
                 </div>
-                <FavoritesOfferList offers={favouriteOffers}/>
+                <FavoritesOfferList/>
               </li>
             </ul>
           </section>
