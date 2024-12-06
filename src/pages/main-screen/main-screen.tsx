@@ -8,7 +8,7 @@ function MainScreen(): JSX.Element {
   const city = useAppSelector((state) => state.city);
   const currentOfferId = useAppSelector((state) => state.currentOfferId);
   const offers = useAppSelector((state) => state.offers);
-  const currentOffers = offers.filter((offer) => offer.city === city);
+  const currentOffers = offers.filter((offer) => offer.city.name === city.name);
   const cities = offers.map((offer) => offer.city);
   return (
     <div className="page page--gray page--main">
