@@ -16,10 +16,6 @@ export enum OfferPlace {
   Room = 'Room'
 }
 
-export enum PricePeriod {
-  Night = 'night'
-}
-
 export enum Rating {
   OneStar = 20,
   TwoStar = 40,
@@ -69,3 +65,12 @@ export enum SortTypes {
 export const MapUrlTemplate = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 
 export const MapAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+export enum ApiRoutes {
+  Offers = 'offers',
+}
+
+export const TokenKey = 'six-cities-token';
+export const ApiUrl = 'https://14.design.htmlacademy.pro/six-cities';
+
+export const Timeout = 5000;

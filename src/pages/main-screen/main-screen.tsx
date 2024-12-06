@@ -45,19 +45,19 @@ function MainScreen(): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <CitiesList cities={cities.filter((item, pos) => cities.indexOf(item) === pos).sort((a, b) => a.id - b.id)} />
+            <CitiesList cities={cities.filter((someCity, i, arr) => arr.findIndex((anotherCity) => anotherCity.name === someCity.name) === i).sort((a, b) => +(a.name > b.name))} />
           </section>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {city.name}</b>
+              <b className="places__found">{currentOffers.length} places to stay in {city?.name}</b>
               <SortingVariables/>
               <OffersList offers={currentOffers} offerClassNameType='cities' offersDivClassName={'cities__places-list places__list tabs__content'}/>
             </section>
             <div className="cities__right-section">
-              <OffersMap points={currentOffers.map((offer) => [...offer.coordinates, offer.id === currentOfferId])} className={'cities__map map'}/>
+              <OffersMap points={currentOffers.map((offer) => [offer.location, offer.id === currentOfferId])} className={'cities__map map'}/>
             </div>
           </div>
         </div>
