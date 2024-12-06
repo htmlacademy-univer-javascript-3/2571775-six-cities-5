@@ -16,7 +16,7 @@ export default function CitiesList({ cities }: CitiesListProps): JSX.Element {
     <ul className="locations__list tabs__list">
       {cities.map((city) => (
         <li
-          key={`city-${city.id}`}
+          key={`city-${city.name}`}
           className="locations__item"
           onClick={() => callbackCityChange(city)}
         >

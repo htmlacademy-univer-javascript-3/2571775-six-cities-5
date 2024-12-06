@@ -6,8 +6,18 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import { NotFoundScreen } from '../../pages/not-found-screen/not-found-screen';
 import { PrivateRoute } from '../private-route/private-route';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Spinner } from '../../pages/main-screen/spinner';
+import { fetchOffers } from '../../store/api-actions';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.isLoading);
+  if (isLoading){
+    dispatch(fetchOffers());
+    return(<Spinner />);
+  }
+
   return(
     <BrowserRouter>
       <Routes>

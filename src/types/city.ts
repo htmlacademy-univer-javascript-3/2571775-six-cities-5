@@ -1,9 +1,6 @@
-import { CityNames } from '../pages/const';
+import { Location } from '../types/location';
 
 export type City = {
-  id: number;
-  name: CityNames;
-  lat: number;
-  lng: number;
-  zoomForMap: number;
+  name: string;
+  location: Location;
 }

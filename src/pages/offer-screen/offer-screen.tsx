@@ -6,12 +6,12 @@ import { useAppSelector } from '../../hooks';
 function OfferScreen(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const { id } = useParams();
-  let offerId = 0;
+  let offerId: string;
   if (id){
-    offerId = +id;
+    offerId = id;
   }
   const currentOffer = offers.find((offer) => offer.id === offerId);
-  const nearestOffers = offers.filter((offer) => currentOffer?.properties.nearestOffersId.includes(offer.id));
+  const nearestOffers = offers.filter(() => false);
   return(
     <div className="page">
       <header className="header">

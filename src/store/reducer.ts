@@ -1,15 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Paris } from '../mocks/cities';
-import { OffersMock } from '../mocks/offers';
-import { changeCity, setCurrentOfferId, setOffers, setSortingType } from './action';
+import { changeCity, setCurrentOfferId, setLoadingStatus, setOffers, setSortingType } from './action';
 import { AppState } from '../types/state';
 import { SortTypes } from '../pages/const';
 
 const initialState: AppState = {
-  currentOfferId: undefined,
-  city: Paris,
-  offers: OffersMock,
-  sortingType: SortTypes.Popular
+  currentOfferId: '',
+  city: {location:{latitude:0, longitude:0, zoom:0}, name:''},
+  offers: [],
+  sortingType: SortTypes.Popular,
+  isLoading: true,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -17,12 +16,12 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, { payload }) => {
       state.city = payload;
     })
-    .addCase(setOffers, (state) => {
-      state.offers = OffersMock;
+    .addCase(setOffers, (state, { payload }) => {
+      state.offers = payload;
     })
     .addCase(setSortingType, (state, { payload }) => {
       state.sortingType = payload;
-      const arrayForSort = [...OffersMock];
+      const arrayForSort = [...state.offers];
       switch (payload) {
         case SortTypes.Popular:
           state.offers = arrayForSort;
@@ -40,5 +39,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCurrentOfferId, (state, { payload }) => {
       state.currentOfferId = payload;
+    })
+    .addCase(setLoadingStatus, (state, { payload }) => {
+      state.isLoading = payload;
     });
 });

@@ -1,8 +1,8 @@
-import { Offers } from '../../types/offer';
+import { MainPageOffers } from '../../types/main-page-offer';
 import { OfferCard } from './offer-card';
 
 type OffersProps = {
-  offers: Offers;
+  offers: MainPageOffers;
   offerClassNameType: string;
   offersDivClassName: string;
 }

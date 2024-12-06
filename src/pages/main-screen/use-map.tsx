@@ -13,10 +13,10 @@ export function useMap(mapRef: RefObject<HTMLElement>): leaflet.Map | null {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current || '', {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: city?.location.latitude,
+          lng: city?.location.longitude,
         },
-        zoom: city.zoomForMap,
+        zoom: city?.location.zoom,
       });
 
       leaflet
@@ -29,6 +29,11 @@ export function useMap(mapRef: RefObject<HTMLElement>): leaflet.Map | null {
         .addTo(instance);
       setMap(instance);
       isRenderedRef.current = true;
+    } else if (map && city) {
+      map.setView(
+        new leaflet.LatLng(city.location.latitude, city.location.longitude),
+        city.location.zoom
+      );
     }
   }, [mapRef, city]);
 
