@@ -1,12 +1,11 @@
-import { Month, Rating } from '../pages/const';
-import { User } from './user';
+import { Host } from './host';
 
 export type Review = {
-  owner: User;
-  rating: Rating;
-  reviewText: string;
-  month: Month;
-  year: number;
+  user: Host;
+  rating: number;
+  comment: string;
+  id: string;
+  date: string;
 }
 
 export type Reviews = Review[];

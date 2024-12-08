@@ -1,44 +1,73 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { postReview } from '../../store/api-actions';
 
-export function CommentSendingForm(): JSX.Element {
+type CommentSendingFormProps = {
+  offerId: string;
+}
+
+export function CommentSendingForm({ offerId }: CommentSendingFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const [text, setText] = useState('');
+  const [rating, setRating] = useState(0);
+  const [canPost, setCanPost] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
   const handleFieldChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
     setText(value);
+    setCanPost(value.length >= 50 && rating !== 0);
+  };
+  const handleFieldChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setRating(+value);
+    setCanPost(text.length >= 50 && +value !== 0);
+  };
+
+  const submit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setIsPosting(true);
+    dispatch(postReview({
+      comment: text,
+      rating: rating,
+      offerId: offerId,
+    }));
+    setText('');
+    setRating(0);
+    setIsPosting(false);
   };
   return(
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" onSubmit={submit} aria-disabled={!isPosting}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
+        <input onChange={handleFieldChangeInput} className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
+        <input onChange={handleFieldChangeInput} className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
+        <input onChange={handleFieldChangeInput} className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
+        <input onChange={handleFieldChangeInput} className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
         </label>
 
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
+        <input onChange={handleFieldChangeInput} className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
@@ -50,7 +79,7 @@ export function CommentSendingForm(): JSX.Element {
         <p className="reviews__help">
                         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!canPost}>Submit</button>
       </div>
     </form>
   );

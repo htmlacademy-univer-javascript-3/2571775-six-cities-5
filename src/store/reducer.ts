@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, setAuthStatus, setCurrentOfferId, setLoadingStatus, setName, setOffers, setSortingType } from './action';
+import { changeCity, setAuthStatus, setCurrentOfferId, setLoadingStatus, setName, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews, setSortingType } from './action';
 import { AppState } from '../types/state';
 import { AuthorizationStatus, SortTypes } from '../pages/const';
 
@@ -10,7 +10,10 @@ const initialState: AppState = {
   sortingType: SortTypes.Popular,
   isLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
-  name: ''
+  name: '',
+  isOfferPageLoading: false,
+  offerOwnInfo: null,
+  reviews: []
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -23,21 +26,6 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setSortingType, (state, { payload }) => {
       state.sortingType = payload;
-      const arrayForSort = [...state.offers];
-      switch (payload) {
-        case SortTypes.Popular:
-          state.offers = arrayForSort;
-          break;
-        case SortTypes.PriceFromHigh:
-          state.offers = arrayForSort.sort((a, b) => b.price - a.price);
-          break;
-        case SortTypes.PriceFromLow:
-          state.offers = arrayForSort.sort((a, b) => a.price - b.price);
-          break;
-        case SortTypes.TopRated:
-          state.offers = arrayForSort.sort((a, b) => b.rating - a.rating);
-          break;
-      }
     })
     .addCase(setCurrentOfferId, (state, { payload }) => {
       state.currentOfferId = payload;
@@ -50,5 +38,14 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setName, (state, { payload }) => {
       state.name = payload;
+    })
+    .addCase(setOfferOwnInfo, (state, { payload }) => {
+      state.offerOwnInfo = payload;
+    })
+    .addCase(setOfferPageLoadingStatus, (state, { payload }) => {
+      state.isOfferPageLoading = payload;
+    })
+    .addCase(setReviews, (state, { payload }) => {
+      state.reviews = payload;
     });
 });
