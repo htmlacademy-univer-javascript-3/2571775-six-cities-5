@@ -2,7 +2,8 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:id'
+  Offer = '/offer/:id',
+  BadRoute = '*'
 }
 
 export enum AuthorizationStatus {
@@ -60,7 +61,8 @@ export const MapAttribution = '&copy; <a href="https://www.openstreetmap.org/cop
 export enum ApiRoutes {
   Offers = 'offers',
   Login = 'login',
-  Logout = 'logout'
+  Logout = 'logout',
+  Comments = 'comments'
 }
 
 export const TokenKey = 'six-cities-token';

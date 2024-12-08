@@ -1,13 +1,15 @@
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { changeCity, redirectToRoute, setAuthStatus, setLoadingStatus, setName, setOffers } from './action';
+import { changeCity, redirectToRoute, setAuthStatus, setLoadingStatus, setName, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews } from './action';
 import { MainPageOffers } from '../types/main-page-offer';
 import { ApiRoutes, AppRoute, AuthorizationStatus } from '../pages/const';
 import { User } from '../types/user';
 import { Auth } from '../types/auth';
 import { dropToken, saveToken } from '../services/token';
-
+import { OfferOwnInfo } from '../types/offer-own-info';
+import { Reviews } from '../types/review';
+import { ReviewInfo } from '../types/review-info';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -66,5 +68,48 @@ export const authLogout = createAsyncThunk<void, undefined, {
     dropToken();
     dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
     dispatch(redirectToRoute(AppRoute.Main));
+  },
+);
+
+export const fetchReviews = createAsyncThunk<void, { offerId: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'reviews/fetch',
+  async ({offerId}, {dispatch, extra: api}) => {
+    const {data} = await api.get<Reviews>(`${ApiRoutes.Comments}/${offerId}`);
+    dispatch(setReviews(data));
+  },
+);
+
+export const fetchOfferOwnInfo = createAsyncThunk<void, { offerId: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offerOwnInfo/fetch',
+  async ({offerId}, {dispatch, extra: api}) => {
+    dispatch(setOfferPageLoadingStatus(true));
+    try {
+      const {data} = await api.get<OfferOwnInfo>(`${ApiRoutes.Offers}/${offerId}`);
+      dispatch(fetchReviews({offerId}));
+      dispatch(setOfferOwnInfo(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.BadRoute));
+    }
+    dispatch(setOfferPageLoadingStatus(false));
+  },
+);
+
+export const postReview = createAsyncThunk<void, ReviewInfo, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'review/post',
+  async ({comment, rating, offerId}, {dispatch, extra: api}) => {
+    await api.post(`${ApiRoutes.Comments}/${offerId}`, {comment, rating});
+    dispatch(fetchReviews({offerId}));
   },
 );
