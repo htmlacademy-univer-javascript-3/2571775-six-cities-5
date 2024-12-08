@@ -1,7 +1,7 @@
-import { OwnerStatus } from '../pages/const';
-
 export type User = {
-  avatarSrc: string;
+  avatarUrl: string;
   name: string;
-  status: OwnerStatus;
+  isPro: boolean;
+  email: string;
+  token: string;
 }
