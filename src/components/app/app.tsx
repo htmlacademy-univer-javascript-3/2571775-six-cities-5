@@ -1,25 +1,24 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import MainScreen from '../../pages/main-screen/main-screen';
-import { AppRoute, AuthorizationStatus } from '../../pages/const';
+import { AppRoute } from '../../pages/const';
 import LoginScreen from '../../pages/login-screen/login-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import OfferScreen from '../../pages/offer-screen/offer-screen';
 import { NotFoundScreen } from '../../pages/not-found-screen/not-found-screen';
 import { PrivateRoute } from '../private-route/private-route';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { Spinner } from '../../pages/main-screen/spinner';
-import { fetchOffers } from '../../store/api-actions';
+import { HistoryRouter } from '../history-router/history-router';
+import { browserHistory } from '../../browser-history';
 
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
   const isLoading = useAppSelector((state) => state.isLoading);
   if (isLoading){
-    dispatch(fetchOffers());
     return(<Spinner />);
   }
 
   return(
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -32,7 +31,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute>
               <FavoritesScreen/>
             </PrivateRoute>
           }
@@ -46,7 +45,7 @@ function App(): JSX.Element {
           element={<NotFoundScreen />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

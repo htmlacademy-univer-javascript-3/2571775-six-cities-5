@@ -1,7 +1,7 @@
 import { City } from './city';
 import { MainPageOffers } from './main-page-offer';
 import {store} from '../store';
-import { SortTypes } from '../pages/const';
+import { AuthorizationStatus, SortTypes } from '../pages/const';
 
 export type AppState = {
   currentOfferId: string;
@@ -9,6 +9,8 @@ export type AppState = {
   offers: MainPageOffers;
   sortingType: SortTypes;
   isLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
+  name: string;
 }
 
 export type State = ReturnType<typeof store.getState>;

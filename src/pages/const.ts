@@ -24,15 +24,6 @@ export enum Rating {
   FiveStar = 100
 }
 
-export enum CityNames {
-  Paris = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg = 'Hamburg',
-  Dusseldorf = 'Dusseldorf'
-}
-
 export enum OwnerStatus {
   Beginner = 'Beginner',
   Middle = 'Middle',
@@ -68,6 +59,8 @@ export const MapAttribution = '&copy; <a href="https://www.openstreetmap.org/cop
 
 export enum ApiRoutes {
   Offers = 'offers',
+  Login = 'login',
+  Logout = 'logout'
 }
 
 export const TokenKey = 'six-cities-token';
