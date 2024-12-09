@@ -9,7 +9,7 @@ import { MemoizedSpinner } from '../main-screen/spinner';
 import { MemoizedHeader } from '../main-screen/header';
 
 function OfferScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   let offerId = '';
@@ -27,7 +27,6 @@ function OfferScreen(): JSX.Element {
   if (!currentOffer || isOfferPageLoading) {
     return <MemoizedSpinner/>;
   }
-  const nearestOffers = offers.slice(0, 3);
   return(
     <div className="page">
       <header className="header">
@@ -44,7 +43,7 @@ function OfferScreen(): JSX.Element {
       </header>
 
       <main className="page__main page__main--offer">
-        <MemoizedOfferInfo offer={currentOffer} nearestOffers={nearestOffers}/>
+        <MemoizedOfferInfo offer={currentOffer}/>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>

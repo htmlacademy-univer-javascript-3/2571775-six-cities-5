@@ -19,7 +19,7 @@ function Header(): JSX.Element {
               <div className="header__avatar-wrapper user__avatar-wrapper">
               </div>
               <span className="header__user-name user__name">{userName}</span>
-              <span className="header__favorite-count">{offers.filter((offer) => offer.isFavourite).length}</span>
+              <span className="header__favorite-count">{offers.filter((offer) => offer.isFavorite).length}</span>
             </a>
           </li>
         )

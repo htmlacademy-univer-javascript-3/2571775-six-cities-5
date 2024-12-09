@@ -62,7 +62,9 @@ export enum ApiRoutes {
   Offers = 'offers',
   Login = 'login',
   Logout = 'logout',
-  Comments = 'comments'
+  Comments = 'comments',
+  NearbySuffix = 'nearby',
+  Favorite = 'favorite'
 }
 
 export const TokenKey = 'six-cities-token';

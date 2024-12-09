@@ -1,15 +1,13 @@
 import { memo, useCallback } from 'react';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeCity} from '../../store/action.ts';
 import { City } from '../../types/city.ts';
 
-
-type CitiesListProps = {
-  cities: City[];
-};
-
-function CitiesList({ cities }: CitiesListProps): JSX.Element {
+function CitiesList(): JSX.Element {
   const dispatch = useAppDispatch();
+  const offers = useAppSelector((state) => state.offers);
+  const allCities = offers.map((offer) => offer.city);
+  const cities = allCities.filter((someCity, i, arr) => arr.findIndex((anotherCity) => anotherCity.name === someCity.name) === i).sort((a, b) => a.name.localeCompare(b.name));
   const callbackCityChange = useCallback((city: City) => {
     dispatch(changeCity(city));
   }, [dispatch]);

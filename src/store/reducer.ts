@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, setAuthStatus, setCurrentOfferId, setLoadingStatus, setName, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews, setSortingType } from './action';
+import { changeCity, setAuthStatus, setCurrentOfferId, setFavoriteOffers, setFavoriteOffersLoadingStatus, setLoadingStatus, setName, setNearestOffers, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews, setSortingType } from './action';
 import { AppState } from '../types/state';
 import { AuthorizationStatus, SortTypes } from '../pages/const';
 
@@ -13,7 +13,10 @@ const initialState: AppState = {
   name: '',
   isOfferPageLoading: false,
   offerOwnInfo: null,
-  reviews: []
+  reviews: [],
+  nearestOffers: [],
+  favoriteOffers: [],
+  isFavoriteOffersLoading: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -47,5 +50,14 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setReviews, (state, { payload }) => {
       state.reviews = payload;
+    })
+    .addCase(setNearestOffers, (state, { payload }) => {
+      state.nearestOffers = payload;
+    })
+    .addCase(setFavoriteOffers, (state, { payload }) => {
+      state.favoriteOffers = payload;
+    })
+    .addCase(setFavoriteOffersLoadingStatus, (state, { payload }) => {
+      state.isFavoriteOffersLoading = payload;
     });
 });
