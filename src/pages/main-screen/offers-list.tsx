@@ -1,5 +1,6 @@
+import { memo } from 'react';
 import { MainPageOffers } from '../../types/main-page-offer';
-import { OfferCard } from './offer-card';
+import { MemoizedOfferCard } from './offer-card';
 
 type OffersProps = {
   offers: MainPageOffers;
@@ -7,14 +8,15 @@ type OffersProps = {
   offersDivClassName: string;
 }
 
-export function OffersList({offers, offerClassNameType, offersDivClassName}: OffersProps): JSX.Element {
+function OffersList({offers, offerClassNameType, offersDivClassName}: OffersProps): JSX.Element {
   return(
     <div className={offersDivClassName}>
       {
         offers.map((offer, id) => {
           const keyValue = `offer-${id}`;
-          return (<OfferCard offer={offer} key={keyValue} classNameType={offerClassNameType}/>);
+          return (<MemoizedOfferCard offer={offer} key={keyValue} classNameType={offerClassNameType}/>);
         })
       }
     </div>);
 }
+export const MemoizedOffersList = memo(OffersList);

@@ -1,10 +1,11 @@
 import { ReviewsList } from './reviews-list';
-import { CommentSendingForm } from './comment-sending-form';
+import { MemoizedCommentSendingForm } from './comment-sending-form';
 import { OffersMap } from '../main-screen/offers-map';
 import { useAppSelector } from '../../hooks';
 import { OfferOwnInfo } from '../../types/offer-own-info';
 import { MainPageOffers } from '../../types/main-page-offer';
 import { AuthorizationStatus } from '../const';
+import { memo } from 'react';
 
 type OfferInfoProps = {
   offer: OfferOwnInfo;
@@ -12,7 +13,7 @@ type OfferInfoProps = {
 }
 
 
-export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
+function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
   const currentOfferId = useAppSelector((state) => state.currentOfferId);
   const reviews = useAppSelector((state) => state.reviews);
   const auth = useAppSelector((state) => state.authorizationStatus);
@@ -115,7 +116,7 @@ export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
           <section className="offer__reviews reviews">
             <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{1}</span></h2>
             <ReviewsList reviews={reviews}/>
-            {auth === AuthorizationStatus.Auth && <CommentSendingForm offerId={offer.id}/>}
+            {auth === AuthorizationStatus.Auth && <MemoizedCommentSendingForm offerId={offer.id}/>}
           </section>
         </div>
       </div>
@@ -123,3 +124,4 @@ export function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
     </section>
   );
 }
+export const MemoizedOfferInfo = memo(OfferInfo);

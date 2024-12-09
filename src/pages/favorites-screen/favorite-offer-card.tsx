@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { MainPageOffer } from '../../types/main-page-offer';
 
 type FavoriteOfferProps = {
   offer: MainPageOffer;
 }
 
-export function FavoriteOffer({offer}: FavoriteOfferProps): JSX.Element {
+function FavoriteOffer({offer}: FavoriteOfferProps): JSX.Element {
   return(
     <article className="favorites__card place-card">
       {
@@ -51,3 +52,5 @@ export function FavoriteOffer({offer}: FavoriteOfferProps): JSX.Element {
     </article>
   );
 }
+
+export const MemoizedFavoriteOffer = memo(FavoriteOffer);

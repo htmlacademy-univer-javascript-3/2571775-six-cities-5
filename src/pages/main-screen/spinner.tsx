@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import '../../../public/css/spinner.css';
 
-export function Spinner(): JSX.Element {
+function Spinner(): JSX.Element {
   return (
     <div className="spinner-container">
       <div className="spinner"></div>
@@ -8,3 +9,4 @@ export function Spinner(): JSX.Element {
     </div>
   );
 }
+export const MemoizedSpinner = memo(Spinner);

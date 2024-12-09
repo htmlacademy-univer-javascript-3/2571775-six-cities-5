@@ -1,4 +1,5 @@
-import { FavoritesOfferList } from './favorites-offers-list';
+import { memo } from 'react';
+import { MemoizedFavoritesOfferList } from './favorites-offers-list';
 
 function FavoritesScreen(): JSX.Element {
   return(
@@ -45,7 +46,7 @@ function FavoritesScreen(): JSX.Element {
                     </a>
                   </div>
                 </div>
-                <FavoritesOfferList/>
+                <MemoizedFavoritesOfferList/>
               </li>
             </ul>
           </section>
@@ -60,4 +61,5 @@ function FavoritesScreen(): JSX.Element {
   );
 }
 
-export default FavoritesScreen;
+const MemoizedFavoritesScreen = memo(FavoritesScreen);
+export default MemoizedFavoritesScreen;
