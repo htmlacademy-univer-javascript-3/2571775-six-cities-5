@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute, AuthorizationStatus } from '../const';
 import { authLogout } from '../../store/api-actions';
+import { memo } from 'react';
 
-export function Header(): JSX.Element {
+function Header(): JSX.Element {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.authorizationStatus);
   const userName = useAppSelector((state) => state.name);
@@ -41,3 +42,4 @@ export function Header(): JSX.Element {
     </nav>
   );
 }
+export const MemoizedHeader = memo(Header);

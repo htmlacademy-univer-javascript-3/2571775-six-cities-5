@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../../../public/css/not-found.css';
+import { memo } from 'react';
 
-export function NotFoundScreen(): JSX.Element {
+function NotFoundScreen(): JSX.Element {
   return(
     <div className='not-found'>
       <h1>404</h1>
@@ -9,3 +10,4 @@ export function NotFoundScreen(): JSX.Element {
     </div>
   );
 }
+export const MemoizedNotFoundScreen = memo(NotFoundScreen);

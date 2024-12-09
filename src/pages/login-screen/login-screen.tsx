@@ -1,5 +1,6 @@
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
-import { LoginForm } from './login-form';
+import { MemoizedLoginForm } from './login-form';
 
 function LoginScreen(): JSX.Element {
   const city = useAppSelector((state) => state.city);
@@ -21,7 +22,7 @@ function LoginScreen(): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <LoginForm />
+            <MemoizedLoginForm />
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
@@ -36,4 +37,5 @@ function LoginScreen(): JSX.Element {
   );
 }
 
-export default LoginScreen;
+const MemoizedLoginScreen = memo(LoginScreen);
+export default MemoizedLoginScreen;

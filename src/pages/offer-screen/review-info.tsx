@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import { Review } from '../../types/review';
 
 type ReviewInfoProps = {
   review: Review;
 }
 
-export function ReviewInfo({review}: ReviewInfoProps): JSX.Element {
+function ReviewInfo({review}: ReviewInfoProps): JSX.Element {
   const textDate = new Date(review.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -40,3 +41,4 @@ export function ReviewInfo({review}: ReviewInfoProps): JSX.Element {
     </li>
   );
 }
+export const MemoizedReviewInfo = memo(ReviewInfo);

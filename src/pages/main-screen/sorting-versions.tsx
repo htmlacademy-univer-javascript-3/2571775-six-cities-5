@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { SortTypes } from '../const';
 import { useAppSelector } from '../../hooks';
-import { SortVersion } from './sort-version';
+import { MemoizedSortVersion } from './sort-version';
 
-export function SortingVariables(): JSX.Element {
+function SortingVariables(): JSX.Element {
   const sortVersion = useAppSelector((state) => state.sortingType);
   const [isOpened, setIsOpened] = useState(false);
-  const onClick = () => setIsOpened(!isOpened);
+  const onClick = useCallback(() => setIsOpened(!isOpened), [isOpened]);
   return(
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption" onClick={onClick}>Sort by</span>
@@ -17,7 +17,8 @@ export function SortingVariables(): JSX.Element {
         </svg>
       </span>
       <ul className={`places__options places__options--custom${isOpened ? ' places__options--opened' : ''}`}>
-        {Object.values(SortTypes).map((type) => <SortVersion type={type} key={type} callback={onClick}/>)}
+        {Object.values(SortTypes).map((type) => <MemoizedSortVersion type={type} key={type} callback={onClick}/>)}
       </ul>
     </form>);
 }
+export const MemoizedSortingVariables = memo(SortingVariables);

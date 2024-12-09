@@ -2,16 +2,19 @@ import { Link } from 'react-router-dom';
 import { MainPageOffer } from '../../types/main-page-offer';
 import { useAppDispatch } from '../../hooks';
 import { setCurrentOfferId } from '../../store/action';
+import { memo, useCallback } from 'react';
 
 type OfferCardProps = {
   offer: MainPageOffer;
   classNameType: string;
 }
 
-export function OfferCard({offer, classNameType}: OfferCardProps): JSX.Element {
+function OfferCard({offer, classNameType}: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const onMouseOver = useCallback(() => dispatch(setCurrentOfferId(offer.id)), [dispatch, offer.id]);
+  const onMouseOut = useCallback(() => dispatch(setCurrentOfferId('')), [dispatch]);
   return (
-    <article className={`${classNameType}__card place-card`} onMouseOver={() => dispatch(setCurrentOfferId(offer.id))} onMouseOut={() => dispatch(setCurrentOfferId(''))}>
+    <article className={`${classNameType}__card place-card`} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
       {
         offer.isPremium ?
           <div className="place-card__mark">
@@ -57,3 +60,4 @@ export function OfferCard({offer, classNameType}: OfferCardProps): JSX.Element {
       </div>
     </article>);
 }
+export const MemoizedOfferCard = memo(OfferCard);

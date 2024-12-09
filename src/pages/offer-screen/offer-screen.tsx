@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-import { OfferInfo } from './offer-info';
-import { OffersList } from '../main-screen/offers-list';
+import { MemoizedOfferInfo } from './offer-info';
+import { MemoizedOffersList } from '../main-screen/offers-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { fetchOfferOwnInfo } from '../../store/api-actions';
 import { OfferOwnInfo } from '../../types/offer-own-info';
-import { Spinner } from '../main-screen/spinner';
-import { Header } from '../main-screen/header';
+import { MemoizedSpinner } from '../main-screen/spinner';
+import { MemoizedHeader } from '../main-screen/header';
 
 function OfferScreen(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
@@ -25,7 +25,7 @@ function OfferScreen(): JSX.Element {
   const currentOffer = useAppSelector((state) => state.offerOwnInfo) as OfferOwnInfo;
   const isOfferPageLoading = useAppSelector((state) => state.isOfferPageLoading);
   if (!currentOffer || isOfferPageLoading) {
-    return <Spinner/>;
+    return <MemoizedSpinner/>;
   }
   const nearestOffers = offers.slice(0, 3);
   return(
@@ -38,17 +38,17 @@ function OfferScreen(): JSX.Element {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </a>
             </div>
-            <Header/>
+            <MemoizedHeader/>
           </div>
         </div>
       </header>
 
       <main className="page__main page__main--offer">
-        <OfferInfo offer={currentOffer} nearestOffers={nearestOffers}/>
+        <MemoizedOfferInfo offer={currentOffer} nearestOffers={nearestOffers}/>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={nearestOffers} offerClassNameType={'near-places'} offersDivClassName={'near-places__list places__list'} ></OffersList>
+            <MemoizedOffersList offers={nearestOffers} offerClassNameType={'near-places'} offersDivClassName={'near-places__list places__list'} />
           </section>
         </div>
       </main>
@@ -56,4 +56,5 @@ function OfferScreen(): JSX.Element {
   );
 }
 
-export default OfferScreen;
+const MemoizedOfferScreen = memo(OfferScreen);
+export default MemoizedOfferScreen;

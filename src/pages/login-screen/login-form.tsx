@@ -1,14 +1,14 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, memo, useCallback, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { authLogin } from '../../store/api-actions';
 import { Auth } from '../../types/auth';
 
-export function LoginForm(): JSX.Element {
+function LoginForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const [authInfo, setAuthInfo] = useState<Auth>({email: '', password: ''});
-  const changeAuthInfo = (event: React.ChangeEvent<HTMLInputElement>) => setAuthInfo((auth) => ({ ...auth, [event.target.name]: event.target.value }));
+  const changeAuthInfo = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setAuthInfo((auth) => ({ ...auth, [event.target.name]: event.target.value })), []);
 
-  const submit = (evt: FormEvent<HTMLFormElement>) => {
+  const submit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (authInfo.email.length > 0 && authInfo.password.length > 0) {
       dispatch(authLogin({
@@ -16,7 +16,7 @@ export function LoginForm(): JSX.Element {
         password: authInfo.password
       }));
     }
-  };
+  }, [authInfo.email, authInfo.password, dispatch]);
 
   return (
     <form onSubmit={submit} className="login__form form">
@@ -32,3 +32,5 @@ export function LoginForm(): JSX.Element {
     </form>
   );
 }
+
+export const MemoizedLoginForm = memo(LoginForm);
