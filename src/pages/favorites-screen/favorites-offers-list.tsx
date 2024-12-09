@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks';
 import { MemoizedFavoriteOffer } from './favorite-offer-card';
 
 function FavoritesOfferList(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers).filter((offer) => offer.isFavourite);
+  const offers = useAppSelector((state) => state.favoriteOffers);
   return(
     <div className="favorites__places">
       {

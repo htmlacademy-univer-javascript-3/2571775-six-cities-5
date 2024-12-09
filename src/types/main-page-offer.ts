@@ -11,7 +11,7 @@ export type MainPageOffer = {
   price: number;
   type: string;
   isPremium: boolean;
-  isFavourite: boolean;
+  isFavorite: boolean;
 }
 
 export type MainPageOffers = MainPageOffer[]

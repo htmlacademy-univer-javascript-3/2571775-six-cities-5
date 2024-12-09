@@ -13,7 +13,7 @@ import { browserHistory } from '../../browser-history';
 
 function App(): JSX.Element {
   const isLoading = useAppSelector((state) => state.isLoading);
-  if (isLoading){
+  if (isLoading) {
     return(<MemoizedSpinner />);
   }
 

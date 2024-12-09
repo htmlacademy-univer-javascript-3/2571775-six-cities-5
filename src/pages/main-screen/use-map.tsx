@@ -35,7 +35,7 @@ export function useMap(mapRef: RefObject<HTMLElement>): leaflet.Map | null {
         city.location.zoom
       );
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return(map);
 }

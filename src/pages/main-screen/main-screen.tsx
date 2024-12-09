@@ -6,6 +6,7 @@ import { MemoizedSortingVariables } from './sorting-versions';
 import { MemoizedHeader } from './header';
 import { SortTypes } from '../const';
 import { memo, useCallback } from 'react';
+import { MemoizedMainEmptyScreen } from '../main-empty-screen/main-empty-screen';
 
 function MainScreen(): JSX.Element {
   const city = useAppSelector((state) => state.city);
@@ -26,7 +27,9 @@ function MainScreen(): JSX.Element {
     }
   }, [offers, sortType]);
   const currentOffers = getCurrentOffers().filter((offer) => offer.city.name === city.name);
-  const cities = offers.map((offer) => offer.city);
+  if (offers.length === 0){
+    return <MemoizedMainEmptyScreen/>;
+  }
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -46,7 +49,7 @@ function MainScreen(): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-            <MemoizedCitiesList cities={cities.filter((someCity, i, arr) => arr.findIndex((anotherCity) => anotherCity.name === someCity.name) === i).sort((a, b) => a.name.localeCompare(b.name))} />
+            <MemoizedCitiesList />
           </section>
         </div>
         <div className="cities">

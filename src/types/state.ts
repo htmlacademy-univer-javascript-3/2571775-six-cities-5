@@ -16,6 +16,9 @@ export type AppState = {
   offerOwnInfo: OfferOwnInfo | null;
   isOfferPageLoading: boolean;
   reviews: Reviews;
+  nearestOffers: MainPageOffers;
+  favoriteOffers: MainPageOffers;
+  isFavoriteOffersLoading: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

@@ -3,18 +3,17 @@ import { MemoizedCommentSendingForm } from './comment-sending-form';
 import { OffersMap } from '../main-screen/offers-map';
 import { useAppSelector } from '../../hooks';
 import { OfferOwnInfo } from '../../types/offer-own-info';
-import { MainPageOffers } from '../../types/main-page-offer';
 import { AuthorizationStatus } from '../const';
 import { memo } from 'react';
 
 type OfferInfoProps = {
   offer: OfferOwnInfo;
-  nearestOffers: MainPageOffers;
 }
 
 
-function OfferInfo({offer, nearestOffers}: OfferInfoProps): JSX.Element {
+function OfferInfo({offer}: OfferInfoProps): JSX.Element {
   const currentOfferId = useAppSelector((state) => state.currentOfferId);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers);
   const reviews = useAppSelector((state) => state.reviews);
   const auth = useAppSelector((state) => state.authorizationStatus);
   return(
