@@ -7,7 +7,7 @@ import { memo } from 'react';
 function Header(): JSX.Element {
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.authorizationStatus);
-  const userName = useAppSelector((state) => state.name);
+  const userEmail = useAppSelector((state) => state.email);
   const offers = useAppSelector((state) => state.offers);
   return(
     <nav className="header__nav">
@@ -15,12 +15,14 @@ function Header(): JSX.Element {
         auth === AuthorizationStatus.Auth
         && (
           <li className="header__nav-item user">
-            <a className="header__nav-link header__nav-link--profile" href="#">
+            <div className="header__nav-link header__nav-link--profile">
               <div className="header__avatar-wrapper user__avatar-wrapper">
               </div>
-              <span className="header__user-name user__name">{userName}</span>
+              <Link className="header__user-name user__name" to={AppRoute.Favorites}>
+                <span>{userEmail}</span>
+              </Link>
               <span className="header__favorite-count">{offers.filter((offer) => offer.isFavorite).length}</span>
-            </a>
+            </div>
           </li>
         )
       }

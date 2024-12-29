@@ -12,7 +12,7 @@ export type AppState = {
   sortingType: SortTypes;
   isLoading: boolean;
   authorizationStatus: AuthorizationStatus;
-  name: string;
+  email: string;
   offerOwnInfo: OfferOwnInfo | null;
   isOfferPageLoading: boolean;
   reviews: Reviews;

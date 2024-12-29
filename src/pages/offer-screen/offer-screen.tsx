@@ -9,7 +9,7 @@ import { MemoizedSpinner } from '../main-screen/spinner';
 import { MemoizedHeader } from '../main-screen/header';
 
 function OfferScreen(): JSX.Element {
-  const nearestOffers = useAppSelector((state) => state.nearestOffers);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0, 3);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   let offerId = '';
@@ -17,9 +17,15 @@ function OfferScreen(): JSX.Element {
     offerId = id;
   }
   useEffect(() => {
-    if (offerId) {
-      dispatch(fetchOfferOwnInfo({ offerId }));
+    let isMounted = true;
+    if (isMounted) {
+      if (offerId) {
+        dispatch(fetchOfferOwnInfo({ offerId: offerId, onlyData: false }));
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, offerId]);
 
   const currentOffer = useAppSelector((state) => state.offerOwnInfo) as OfferOwnInfo;

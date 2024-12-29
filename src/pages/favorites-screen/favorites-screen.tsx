@@ -3,11 +3,16 @@ import { MemoizedFavoritesOfferList } from './favorites-offers-list';
 import { MemoizedHeader } from '../main-screen/header';
 import { useAppSelector } from '../../hooks';
 import { MemoizedSpinner } from '../main-screen/spinner';
+import FavoritesEmptyScreen from '../favorites-empty-screen/favorites-empty-screen';
 
 function FavoritesScreen(): JSX.Element {
   const isFavoriteOffersLoading = useAppSelector((state) => state.isFavoriteOffersLoading);
+  const offers = useAppSelector((state) => state.favoriteOffers);
   if (isFavoriteOffersLoading) {
     return <MemoizedSpinner/>;
+  }
+  if (offers.length === 0) {
+    return(<FavoritesEmptyScreen/>);
   }
   return(
     <div className="page">

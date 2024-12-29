@@ -1,64 +1,61 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { MainPageOffer } from '../../types/main-page-offer';
+import { useAppDispatch } from '../../hooks';
+import { changeOfferIsFavoriteStatus } from '../../store/api-actions';
 
 type FavoriteOfferProps = {
   offer: MainPageOffer;
 }
 
 function FavoriteOffer({offer}: FavoriteOfferProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const handleOnClick = useCallback(() => {
+    dispatch(changeOfferIsFavoriteStatus({offerId: offer.id, status: 0}));
+  }, [dispatch, offer.id]);
   return(
-    <li className="favorites__locations-items">
-      <div className="favorites__locations locations locations--current">
-        <div className="locations__item">
-          <a className="locations__item-link" href="#">
-            <span>{offer.city.name}</span>
-          </a>
-        </div>
+    <article className="favorites__card place-card">
+      {
+        offer.isPremium ?
+          <div className="place-card__mark">
+            <span>Premium</span>
+          </div> : null
+      }
+      <div className="favorites__image-wrapper place-card__image-wrapper">
+        <a href="#">
+          <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image" />
+        </a>
       </div>
-      <article className="favorites__card place-card">
-        {
-          offer.isPremium ?
-            <div className="place-card__mark">
-              <span>Premium</span>
-            </div> : null
-        }
-        <div className="favorites__image-wrapper place-card__image-wrapper">
-          <a href="#">
-            <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
-          </a>
-        </div>
-        <div className="favorites__card-info place-card__info">
-          <div className="place-card__price-wrapper">
-            <div className="place-card__price">
-              <b className="place-card__price-value">&euro;{offer.price}</b>
-              <span className="place-card__price-text">&#47;&nbsp;night</span>
-            </div>
-            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">In bookmarks</span>
-            </button>
+      <div className="favorites__card-info place-card__info">
+        <div className="place-card__price-wrapper">
+          <div className="place-card__price">
+            <b className="place-card__price-value">&euro;{offer.price}</b>
+            <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <div className="place-card__rating rating">
-            <div className="place-card__stars rating__stars">
-              <span style={
-                {
-                  width: `${offer.rating}%`
-                }
+          <button onClick={handleOnClick} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+            <svg className="place-card__bookmark-icon" width="18" height="19">
+              <use xlinkHref="#icon-bookmark"></use>
+            </svg>
+            <span className="visually-hidden">In bookmarks</span>
+          </button>
+        </div>
+        <div className="place-card__rating rating">
+          <div className="place-card__stars rating__stars">
+            <span style={
+              {
+                width: `${offer.rating}%`
               }
-              >
-              </span>
-              <span className="visually-hidden">Rating</span>
-            </div>
+            }
+            >
+            </span>
+            <span className="visually-hidden">Rating</span>
           </div>
-          <h2 className="place-card__name">
-            <a href="#">{offer.title}</a>
-          </h2>
-          <p className="place-card__type">{offer.type}</p>
         </div>
-      </article>
-    </li>
+        <h2 className="place-card__name">
+          <a href="#">{offer.title}</a>
+        </h2>
+        <p className="place-card__type">{offer.type}</p>
+      </div>
+    </article>
   );
 }
 

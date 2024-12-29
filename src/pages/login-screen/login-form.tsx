@@ -6,7 +6,7 @@ import { Auth } from '../../types/auth';
 function LoginForm(): JSX.Element {
   const dispatch = useAppDispatch();
   const [authInfo, setAuthInfo] = useState<Auth>({email: '', password: ''});
-  const changeAuthInfo = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setAuthInfo((auth) => ({ ...auth, [event.target.name]: event.target.value })), []);
+  const handleChangeAuthInfo = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setAuthInfo((auth) => ({ ...auth, [event.target.name]: event.target.value })), []);
 
   const submit = useCallback((evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -22,11 +22,11 @@ function LoginForm(): JSX.Element {
     <form onSubmit={submit} className="login__form form">
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">E-mail</label>
-        <input className="login__input form__input" type="email" name="email" value={authInfo.email} onChange={changeAuthInfo} placeholder="Email" required/>
+        <input className="login__input form__input" type="email" name="email" value={authInfo.email} onChange={handleChangeAuthInfo} placeholder="Email" required/>
       </div>
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">Password</label>
-        <input className="login__input form__input" type="password" value={authInfo.password} onChange={changeAuthInfo} name="password" placeholder="Password" required/>
+        <input className="login__input form__input" type="password" value={authInfo.password} onChange={handleChangeAuthInfo} name="password" placeholder="Password" required/>
       </div>
       <button className="login__submit form__submit button" type="submit">Sign in</button>
     </form>

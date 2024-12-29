@@ -1,8 +1,10 @@
 import { memo } from 'react';
 import MemoizedCitiesList from '../main-screen/cities-list';
 import { MemoizedHeader } from '../main-screen/header';
+import { useAppSelector } from '../../hooks';
 
 function MainEmptyScreen(): JSX.Element {
+  const city = useAppSelector((state) => state.city);
   return(
     <div className="page page--gray page--main">
       <header className="header">
@@ -30,7 +32,7 @@ function MainEmptyScreen(): JSX.Element {
             <section className="cities__no-places">
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">No places to stay available</b>
-                <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+                <p className="cities__status-description">We could not find any property available at the moment in {city.name}</p>
               </div>
             </section>
             <div className="cities__right-section"></div>

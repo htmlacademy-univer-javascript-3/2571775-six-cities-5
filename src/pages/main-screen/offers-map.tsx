@@ -14,23 +14,29 @@ export function OffersMap({ points, className }: OffersMapProps): JSX.Element {
   const map = useMap(mapRef);
 
   useEffect(() => {
-    if (map) {
-      map.eachLayer((layer) => {
-        if (layer instanceof leaflet.Marker) {
-          map.removeLayer(layer);
-        }
-      });
-      points.forEach((point) => {
-        const icon = leaflet.icon({
-          iconUrl: point[1] ? 'img/pin-active.svg' : 'img/pin.svg',
-          iconSize: [30, 40],
-          iconAnchor: [20, 40],
+    let isMounted = true;
+    if (isMounted) {
+      if (map) {
+        map.eachLayer((layer) => {
+          if (layer instanceof leaflet.Marker) {
+            map.removeLayer(layer);
+          }
         });
-        leaflet
-          .marker({ lat: point[0].latitude, lng: point[0].longitude }, { icon })
-          .addTo(map);
-      });
+        points.forEach((point) => {
+          const icon = leaflet.icon({
+            iconUrl: point[1] ? 'img/pin-active.svg' : 'img/pin.svg',
+            iconSize: [30, 40],
+            iconAnchor: [20, 40],
+          });
+          leaflet
+            .marker({ lat: point[0].latitude, lng: point[0].longitude }, { icon })
+            .addTo(map);
+        });
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [points, map]);
 
   return (

@@ -12,41 +12,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
-export enum OfferPlace {
-  Apartment = 'Apartment',
-  Room = 'Room'
-}
-
-export enum Rating {
-  OneStar = 20,
-  TwoStar = 40,
-  ThreeStar = 60,
-  FourStar = 80,
-  FiveStar = 100
-}
-
-export enum OwnerStatus {
-  Beginner = 'Beginner',
-  Middle = 'Middle',
-  Pro = 'Pro',
-  Legend = 'Legend'
-}
-
-export enum Month {
-  January = 'January',
-  February = 'February',
-  March = 'March',
-  April = 'April',
-  May = 'May',
-  June = 'June',
-  July = 'July',
-  August = 'August',
-  September = 'September',
-  October = 'October',
-  November = 'November',
-  December = 'December',
-}
-
 export enum SortTypes {
   Popular = 'Popular',
   PriceFromLow = 'Price: low to high',
@@ -69,5 +34,4 @@ export enum ApiRoutes {
 
 export const TokenKey = 'six-cities-token';
 export const ApiUrl = 'https://14.design.htmlacademy.pro/six-cities';
-
 export const Timeout = 5000;

@@ -1,10 +1,12 @@
 import { ReviewsList } from './reviews-list';
 import { MemoizedCommentSendingForm } from './comment-sending-form';
 import { OffersMap } from '../main-screen/offers-map';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { OfferOwnInfo } from '../../types/offer-own-info';
-import { AuthorizationStatus } from '../const';
-import { memo } from 'react';
+import { AppRoute, AuthorizationStatus } from '../const';
+import { memo, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { changeOfferIsFavoriteStatus } from '../../store/api-actions';
 
 type OfferInfoProps = {
   offer: OfferOwnInfo;
@@ -12,16 +14,25 @@ type OfferInfoProps = {
 
 
 function OfferInfo({offer}: OfferInfoProps): JSX.Element {
-  const currentOfferId = useAppSelector((state) => state.currentOfferId);
-  const nearestOffers = useAppSelector((state) => state.nearestOffers);
-  const reviews = useAppSelector((state) => state.reviews);
+  const nearestOffers = useAppSelector((state) => state.nearestOffers).slice(0, 3);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const reviews = [...useAppSelector((state) => state.reviews)].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 10);
   const auth = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleOnClick = useCallback(() => {
+    if (authorizationStatus !== AuthorizationStatus.Auth){
+      navigate(AppRoute.Login);
+    } else {
+      dispatch(changeOfferIsFavoriteStatus({offerId: offer.id, status: +!offer.isFavorite}));
+    }
+  }, [authorizationStatus, dispatch, navigate, offer.id, offer.isFavorite]);
   return(
     <section className="offer">
       <div className="offer__gallery-container container">
         <div className="offer__gallery">
           {
-            offer.images.map((imageSrc, index) => {
+            offer.images.slice(0, 6).map((imageSrc, index) => {
               const keyValue = `photo-${index}`;
               return(
                 <div className="offer__image-wrapper" key={keyValue}>
@@ -43,7 +54,7 @@ function OfferInfo({offer}: OfferInfoProps): JSX.Element {
             <h1 className="offer__name">
               {offer.title}
             </h1>
-            <button className="offer__bookmark-button button" type="button">
+            <button className={`offer__bookmark-button${offer.isFavorite ? ' offer__bookmark-button--active' : ''} button`} type="button" onClick={handleOnClick}>
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
@@ -54,7 +65,7 @@ function OfferInfo({offer}: OfferInfoProps): JSX.Element {
             <div className="offer__stars rating__stars">
               <span style={
                 {
-                  width: `${offer.rating}%`
+                  width: `${Math.round(offer.rating) * 20}%`
                 }
               }
               >
@@ -68,10 +79,12 @@ function OfferInfo({offer}: OfferInfoProps): JSX.Element {
               {offer.type}
             </li>
             <li className="offer__feature offer__feature--bedrooms">
-              {offer.bedrooms} Bedrooms
+              {offer.bedrooms}
+              {offer.bedrooms > 1 ? ' Bedrooms' : ' Bedroom'}
             </li>
             <li className="offer__feature offer__feature--adults">
-                  Max {offer.maxAdults} adults
+              Max {offer.maxAdults}
+              {offer.maxAdults > 1 ? ' adults' : ' adult'}
             </li>
           </ul>
           <div className="offer__price">
@@ -95,7 +108,7 @@ function OfferInfo({offer}: OfferInfoProps): JSX.Element {
           <div className="offer__host">
             <h2 className="offer__host-title">Meet the host</h2>
             <div className="offer__host-user user">
-              <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+              <div className={`offer__avatar-wrapper${offer.host.isPro ? ' offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                 <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
               </div>
               <span className="offer__user-name">
@@ -113,13 +126,13 @@ function OfferInfo({offer}: OfferInfoProps): JSX.Element {
             </div>
           </div>
           <section className="offer__reviews reviews">
-            <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{1}</span></h2>
+            <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
             <ReviewsList reviews={reviews}/>
             {auth === AuthorizationStatus.Auth && <MemoizedCommentSendingForm offerId={offer.id}/>}
           </section>
         </div>
       </div>
-      <OffersMap points={nearestOffers.map((nearestOffer) => [nearestOffer.location, nearestOffer.id === currentOfferId])} className={'offer__map map'}></OffersMap>
+      <OffersMap points={[...nearestOffers, offer].map((nearestOffer) => [nearestOffer.location, nearestOffer.id === offer.id])} className={'offer__map map'}></OffersMap>
     </section>
   );
 }
