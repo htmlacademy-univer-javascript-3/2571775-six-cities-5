@@ -1,9 +1,15 @@
 import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { MemoizedLoginForm } from './login-form';
+import { AppRoute, AuthorizationStatus } from '../const';
+import { Navigate } from 'react-router-dom';
 
 function LoginScreen(): JSX.Element {
   const city = useAppSelector((state) => state.city);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return(<Navigate to={AppRoute.Main} />);
+  }
   return(
     <div className="page page--gray page--login">
       <header className="header">

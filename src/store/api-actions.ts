@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { changeCity, redirectToRoute, setAuthStatus, setFavoriteOffers, setFavoriteOffersLoadingStatus, setLoadingStatus, setName, setNearestOffers, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews } from './action';
+import { changeCity, redirectToRoute, setAuthStatus, setEmail, setFavoriteOffers, setFavoriteOffersLoadingStatus, setLoadingStatus, setNearestOffers, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews } from './action';
 import { MainPageOffers } from '../types/main-page-offer';
 import { ApiRoutes, AppRoute, AuthorizationStatus } from '../pages/const';
 import { User } from '../types/user';
@@ -37,7 +37,7 @@ export const checkAuth = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<User>(ApiRoutes.Login);
-      dispatch(setName(data.name));
+      dispatch(setEmail(data.email));
       dispatch(setAuthStatus(AuthorizationStatus.Auth));
     } catch {
       dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
@@ -54,7 +54,7 @@ export const authLogin = createAsyncThunk<void, Auth, {
   async (payload, {dispatch, extra: api}) => {
     const {data} = await api.post<User>(ApiRoutes.Login, payload);
     saveToken(data.token);
-    dispatch(setName(data.name));
+    dispatch(setEmail(data.email));
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
   },
@@ -98,18 +98,20 @@ export const fetchNearestOffers = createAsyncThunk<void, { offerId: string }, {
   },
 );
 
-export const fetchOfferOwnInfo = createAsyncThunk<void, { offerId: string }, {
+export const fetchOfferOwnInfo = createAsyncThunk<void, { offerId: string; onlyData: boolean }, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'offerOwnInfo/fetch',
-  async ({offerId}, {dispatch, extra: api}) => {
+  async ({offerId, onlyData}, {dispatch, extra: api}) => {
     dispatch(setOfferPageLoadingStatus(true));
     try {
       const {data} = await api.get<OfferOwnInfo>(`${ApiRoutes.Offers}/${offerId}`);
-      dispatch(fetchReviews({offerId}));
-      dispatch(fetchNearestOffers({offerId}));
+      if (!onlyData){
+        dispatch(fetchReviews({offerId}));
+        dispatch(fetchNearestOffers({offerId}));
+      }
       dispatch(setOfferOwnInfo(data));
     } catch {
       dispatch(redirectToRoute(AppRoute.BadRoute));
@@ -125,20 +127,8 @@ export const postReview = createAsyncThunk<void, ReviewInfo, {
 }>(
   'review/post',
   async ({comment, rating, offerId}, {dispatch, extra: api}) => {
-    await api.post(`${ApiRoutes.Comments}/${offerId}`, {comment, rating});
+    await api.post<Reviews>(`${ApiRoutes.Comments}/${offerId}`, {comment, rating});
     dispatch(fetchReviews({offerId}));
-  },
-);
-
-export const changeOfferIsFavoriteStatus = createAsyncThunk<void, ChangeIsFavoriteInfo, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'offerIsFavourite/change',
-  async ({status, offerId}, {dispatch, extra: api}) => {
-    await api.post(`${ApiRoutes.Favorite}/${offerId}/${status}`);
-    dispatch(fetchOffers({isChangeCity: false}));
   },
 );
 
@@ -153,5 +143,20 @@ export const getFavoriteOffers = createAsyncThunk<void, undefined, {
     const {data} = await api.get<MainPageOffers>(`${ApiRoutes.Favorite}`);
     dispatch(setFavoriteOffers(data));
     dispatch(setFavoriteOffersLoadingStatus(false));
+  },
+);
+
+export const changeOfferIsFavoriteStatus = createAsyncThunk<void, ChangeIsFavoriteInfo, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offerIsFavourite/change',
+  async ({status, offerId}, {dispatch, extra: api}) => {
+    dispatch(setLoadingStatus(true));
+    await api.post(`${ApiRoutes.Favorite}/${offerId}/${status}`);
+    dispatch(fetchOffers({isChangeCity: false}));
+    dispatch(fetchOfferOwnInfo({ offerId: offerId, onlyData: true }));
+    dispatch(getFavoriteOffers());
   },
 );

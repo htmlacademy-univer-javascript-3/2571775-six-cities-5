@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, setAuthStatus, setCurrentOfferId, setFavoriteOffers, setFavoriteOffersLoadingStatus, setLoadingStatus, setName, setNearestOffers, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews, setSortingType } from './action';
+import { changeCity, setAuthStatus, setCurrentOfferId, setEmail, setFavoriteOffers, setFavoriteOffersLoadingStatus, setLoadingStatus, setNearestOffers, setOfferOwnInfo, setOfferPageLoadingStatus, setOffers, setReviews, setSortingType } from './action';
 import { AppState } from '../types/state';
 import { AuthorizationStatus, SortTypes } from '../pages/const';
 
@@ -10,13 +10,13 @@ const initialState: AppState = {
   sortingType: SortTypes.Popular,
   isLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
-  name: '',
+  email: '',
   isOfferPageLoading: false,
   offerOwnInfo: null,
   reviews: [],
   nearestOffers: [],
   favoriteOffers: [],
-  isFavoriteOffersLoading: false
+  isFavoriteOffersLoading: false,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -39,8 +39,8 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setAuthStatus, (state, { payload }) => {
       state.authorizationStatus = payload;
     })
-    .addCase(setName, (state, { payload }) => {
-      state.name = payload;
+    .addCase(setEmail, (state, { payload }) => {
+      state.email = payload;
     })
     .addCase(setOfferOwnInfo, (state, { payload }) => {
       state.offerOwnInfo = payload;
